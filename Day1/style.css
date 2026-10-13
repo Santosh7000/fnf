@@ -1,0 +1,298 @@
+/* ==========================================================
+   Neon Pulse - styles for the HUD, overlays, and settings.
+   ========================================================== */
+
+:root {
+  --ink: #090816;          /* page background */
+  --panel: #14122b;        /* cards and HUD */
+  --panel-edge: #2a2656;   /* subtle borders */
+  --text: #ece9ff;
+  --muted: #9d98cf;
+  --cyan: #22d8ff;
+  --pink: #ff4d8d;
+  --violet: #b45cff;
+  --font: "Avenir Next", "Segoe UI", "Trebuchet MS", system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: radial-gradient(ellipse at 50% 120%, #1c1448 0%, var(--ink) 60%);
+  color: var(--text);
+  font-family: var(--font);
+  overflow: hidden;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100dvh;
+}
+
+#hud {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem 1.75rem;
+  padding: 0.6rem 1rem;
+  background: var(--panel);
+  border-bottom: 1px solid var(--panel-edge);
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 4.5rem;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.stat-value {
+  font-size: clamp(1.1rem, 3.2vw, 1.6rem);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.hud-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+#progress {
+  height: 4px;
+  background: var(--panel-edge);
+}
+
+#progress-fill {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--violet), var(--cyan));
+}
+
+#stage {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+}
+
+#game-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+#dev-panel {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  margin: 0;
+  padding: 0.5rem 0.75rem;
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid var(--panel-edge);
+  border-radius: 6px;
+  color: #b8ffcf;
+  font: 12px/1.4 ui-monospace, "Cascadia Code", Consolas, monospace;
+  pointer-events: none;
+}
+
+/* ---------- Buttons ---------- */
+
+button {
+  font: inherit;
+  font-weight: 600;
+  color: var(--text);
+  background: transparent;
+  border: 1px solid var(--panel-edge);
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+button:hover:not(:disabled) { border-color: var(--cyan); }
+
+button:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 2px;
+}
+
+button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+button.primary {
+  background: var(--cyan);
+  border-color: var(--cyan);
+  color: #04202a;
+}
+
+button.primary:hover:not(:disabled) { background: #6be8ff; }
+
+/* ---------- Overlays ---------- */
+
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(5, 4, 14, 0.82);
+}
+
+body[data-state="READY"]    #overlay-start,
+body[data-state="SETTINGS"] #overlay-settings,
+body[data-state="PAUSED"]   #overlay-pause,
+body[data-state="RESULTS"]  #overlay-results {
+  display: flex;
+}
+
+.card {
+  width: min(30rem, 100%);
+  padding: 1.75rem;
+  text-align: center;
+  background: var(--panel);
+  border: 1px solid var(--panel-edge);
+  border-radius: 14px;
+  box-shadow: 0 0 40px rgba(180, 92, 255, 0.18);
+}
+
+.card h1 {
+  margin: 0 0 0.5rem;
+  font-size: clamp(2.2rem, 8vw, 3.2rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  text-shadow: -2px 0 var(--pink), 2px 0 var(--cyan), 0 0 22px rgba(180, 92, 255, 0.6);
+}
+
+.card h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.8rem;
+}
+
+.lead {
+  margin: 0 0 1rem;
+  color: var(--muted);
+}
+
+.how-to {
+  margin: 0 0 1.25rem;
+  padding: 0;
+  list-style: none;
+  text-align: left;
+  line-height: 1.5;
+}
+
+.how-to li {
+  padding: 0.35rem 0;
+  border-top: 1px solid var(--panel-edge);
+}
+
+/* ---------- Key Bindings UI ---------- */
+
+.bindings-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin: 1rem 0;
+}
+
+.binding-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0.75rem;
+  background: var(--ink);
+  border: 1px solid var(--panel-edge);
+  border-radius: 8px;
+}
+
+.binding-label {
+  font-weight: 600;
+}
+
+.binding-key-btn {
+  min-width: 7rem;
+  background: var(--panel);
+  border-color: var(--panel-edge);
+  text-transform: capitalize;
+}
+
+.binding-key-btn.listening {
+  border-color: var(--cyan);
+  color: var(--cyan);
+  animation: pulse-glow 1s infinite alternate;
+}
+
+@keyframes pulse-glow {
+  from { box-shadow: 0 0 4px var(--cyan); }
+  to { box-shadow: 0 0 12px var(--cyan); }
+}
+
+.warning {
+  color: var(--pink);
+}
+
+.hint {
+  margin: 1rem 0 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.card-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.results-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin: 1rem 0;
+}
+
+.results-grid div {
+  padding: 0.75rem;
+  background: var(--ink);
+  border: 1px solid var(--panel-edge);
+  border-radius: 10px;
+}
+
+.results-grid dt {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.results-grid dd {
+  margin: 0.2rem 0 0;
+  font-size: 1.6rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 520px) {
+  #hud { gap: 0.4rem 1rem; padding: 0.4rem 0.5rem; }
+  .stat { min-width: 3.6rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}

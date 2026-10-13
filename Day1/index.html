@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Neon Pulse - Phase 1 Rhythm Engine</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-state="READY">
+  <div id="app">
+
+    <!-- HUD: score, accuracy, combo, misses + controls -->
+    <header id="hud">
+      <div class="stat"><span class="stat-label">Score</span><span class="stat-value" id="hud-score">0</span></div>
+      <div class="stat"><span class="stat-label">Accuracy</span><span class="stat-value" id="hud-accuracy">100.00%</span></div>
+      <div class="stat"><span class="stat-label">Combo</span><span class="stat-value" id="hud-combo">0</span></div>
+      <div class="stat"><span class="stat-label">Misses</span><span class="stat-value" id="hud-misses">0</span></div>
+      <div class="hud-buttons">
+        <button id="btn-settings" type="button">Settings</button>
+        <button id="btn-pause" type="button" disabled>Pause</button>
+        <button id="btn-restart" type="button" disabled>Restart</button>
+      </div>
+    </header>
+
+    <!-- Song progress bar -->
+    <div id="progress" aria-hidden="true"><div id="progress-fill"></div></div>
+
+    <!-- Gameplay canvas -->
+    <main id="stage">
+      <canvas id="game-canvas"></canvas>
+      <pre id="dev-panel" hidden></pre>
+    </main>
+  </div>
+
+  <!-- Start overlay (READY state) -->
+  <section id="overlay-start" class="overlay">
+    <div class="card">
+      <h1>Neon Pulse</h1>
+      <p class="lead">Hit each arrow as it reaches the glowing line.</p>
+      <ul class="how-to">
+        <li>Use your assigned arrow keys (default: Left, Down, Up, Right).</li>
+        <li>Closer to the line scores more: Sick, Good, Bad. Late or unhit arrows are a miss.</li>
+        <li>Press Esc or P to pause. Press D to show timing info.</li>
+      </ul>
+      <p id="audio-warning" class="warning" hidden>This browser does not support the Web Audio API, so the game cannot start.</p>
+      <div class="card-buttons">
+        <button id="btn-start" type="button" class="primary">Start song</button>
+        <button id="btn-open-settings" type="button">Controls</button>
+      </div>
+      <p class="hint">Turn your sound on. You can also press Enter to start.</p>
+    </div>
+  </section>
+
+  <!-- Settings overlay (SETTINGS state) -->
+  <section id="overlay-settings" class="overlay">
+    <div class="card">
+      <h2>Key Bindings</h2>
+      <p class="lead">Click a lane button and press any key to rebind.</p>
+      <div id="settings-bindings" class="bindings-grid">
+        <!-- Generated dynamically -->
+      </div>
+      <div class="card-buttons" style="margin-top: 1.25rem;">
+        <button id="btn-settings-back" type="button" class="primary">Done</button>
+        <button id="btn-settings-reset" type="button">Reset defaults</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pause overlay (PAUSED state) -->
+  <section id="overlay-pause" class="overlay">
+    <div class="card">
+      <h2>Paused</h2>
+      <p class="lead">The song and the chart are frozen together.</p>
+      <div class="card-buttons">
+        <button id="btn-resume" type="button" class="primary">Resume</button>
+        <button id="btn-pause-restart" type="button">Restart song</button>
+      </div>
+      <p class="hint">Press Esc or P to resume. Press R to restart.</p>
+    </div>
+  </section>
+
+  <!-- Results overlay (RESULTS state) -->
+  <section id="overlay-results" class="overlay">
+    <div class="card">
+      <h2>Song complete</h2>
+      <dl class="results-grid">
+        <div><dt>Score</dt><dd id="res-score">0</dd></div>
+        <div><dt>Accuracy</dt><dd id="res-accuracy">0%</dd></div>
+        <div><dt>Max combo</dt><dd id="res-combo">0</dd></div>
+        <div><dt>Misses</dt><dd id="res-misses">0</dd></div>
+      </dl>
+      <p class="lead" id="res-breakdown"></p>
+      <button id="btn-play-again" type="button" class="primary">Play again</button>
+      <p class="hint">Press Enter or R to play again.</p>
+    </div>
+  </section>
+
+  <script src="game.js"></script>
+</body>
+</html>
