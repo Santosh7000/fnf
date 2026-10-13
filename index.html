@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Neon Pulse - Custom Level Creator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-state="READY">
+  <div id="app">
+
+    <!-- HUD -->
+    <header id="hud">
+      <div class="stat"><span class="stat-label">Score</span><span class="stat-value" id="hud-score">0</span></div>
+      <div class="stat"><span class="stat-label">Accuracy</span><span class="stat-value" id="hud-accuracy">100.00%</span></div>
+      <div class="stat"><span class="stat-label">Combo</span><span class="stat-value" id="hud-combo">0</span></div>
+      <div class="stat"><span class="stat-label">Misses</span><span class="stat-value" id="hud-misses">0</span></div>
+      <div class="hud-buttons">
+        <button id="btn-editor-toggle" type="button">Editor Mode</button>
+        <button id="btn-settings" type="button">Controls</button>
+        <button id="btn-pause" type="button" disabled>Pause</button>
+        <button id="btn-restart" type="button" disabled>Restart</button>
+      </div>
+    </header>
+
+    <!-- Song progress bar -->
+    <div id="progress" aria-hidden="true"><div id="progress-fill"></div></div>
+
+    <!-- Gameplay canvas -->
+    <main id="stage">
+      <canvas id="game-canvas"></canvas>
+      <pre id="dev-panel" hidden></pre>
+    </main>
+  </div>
+
+  <!-- Start overlay (READY state) -->
+  <section id="overlay-start" class="overlay">
+    <div class="card">
+      <h1>Neon Pulse</h1>
+      <p class="lead">Play custom songs and build your own charts.</p>
+      
+      <!-- Custom Audio Upload Section -->
+      <div class="upload-section">
+        <label for="audio-file-input" class="file-upload-label">
+          📁 Choose Custom Song (MP3/WAV)
+          <input type="file" id="audio-file-input" accept="audio/*">
+        </label>
+        <span id="file-name-display" class="hint">Using default procedural beat</span>
+      </div>
+
+      <div class="card-buttons" style="margin-top: 1rem;">
+        <button id="btn-start" type="button" class="primary">Start Song</button>
+        <button id="btn-open-settings" type="button">Controls</button>
+        <button id="btn-start-editor" type="button">Chart Editor</button>
+      </div>
+      <p class="hint">Press Enter to start. Press E for Editor mode.</p>
+    </div>
+  </section>
+
+  <!-- Settings overlay (SETTINGS state) -->
+  <section id="overlay-settings" class="overlay">
+    <div class="card">
+      <h2>Key Bindings</h2>
+      <p class="lead">Click a lane button and press any key to rebind.</p>
+      <div id="settings-bindings" class="bindings-grid"></div>
+      <div class="card-buttons" style="margin-top: 1.25rem;">
+        <button id="btn-settings-back" type="button" class="primary">Done</button>
+        <button id="btn-settings-reset" type="button">Reset Defaults</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Editor overlay / panel (EDITOR state) -->
+  <section id="overlay-editor" class="overlay">
+    <div class="card wide-card">
+      <h2>Chart Editor</h2>
+      <p class="lead">Record notes live or export your custom chart layout.</p>
+      <div class="card-buttons">
+        <button id="btn-editor-record" type="button" class="primary">Record Notes (Play)</button>
+        <button id="btn-editor-export" type="button">Export JSON Chart</button>
+        <button id="btn-editor-back" type="button">Back to Menu</button>
+      </div>
+      <textarea id="chart-json-output" placeholder="Exported chart data will appear here..." readonly></textarea>
+    </div>
+  </section>
+
+  <!-- Pause overlay (PAUSED state) -->
+  <section id="overlay-pause" class="overlay">
+    <div class="card">
+      <h2>Paused</h2>
+      <div class="card-buttons">
+        <button id="btn-resume" type="button" class="primary">Resume</button>
+        <button id="btn-pause-restart" type="button">Restart Song</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Results overlay (RESULTS state) -->
+  <section id="overlay-results" class="overlay">
+    <div class="card">
+      <h2>Song Complete</h2>
+      <dl class="results-grid">
+        <div><dt>Score</dt><dd id="res-score">0</dd></div>
+        <div><dt>Accuracy</dt><dd id="res-accuracy">0%</dd></div>
+        <div><dt>Max Combo</dt><dd id="res-combo">0</dd></div>
+        <div><dt>Misses</dt><dd id="res-misses">0</dd></div>
+      </dl>
+      <button id="btn-play-again" type="button" class="primary">Play Again</button>
+    </div>
+  </section>
+
+  <script src="game.js"></script>
+</body>
+</html>
